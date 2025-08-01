@@ -67,6 +67,9 @@ export const HouseholdDataTable: React.FC<HouseholdDataTableProps> = ({ data, on
                 Quality Metrics
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                Scrutiny Iterations
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                 Errors Found
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -116,6 +119,16 @@ export const HouseholdDataTable: React.FC<HouseholdDataTableProps> = ({ data, on
                     <div className="text-xs text-gray-600">
                       Completeness: {item.completenessPercentage}%
                     </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-semibold text-blue-600">{item.scrutinyIterations}</span>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      {item.scrutinyIterations === 1 ? 'iteration' : 'iterations'}
+                    </span>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">

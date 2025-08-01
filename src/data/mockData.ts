@@ -262,6 +262,7 @@ export const householdData: HouseholdData[] = [
     completenessPercentage: 98.2,
     criticalErrors: 0,
     minorErrors: 2,
+    scrutinyIterations: 2,
     scrutinyChanges: [
       {
         id: 'sc1',
@@ -328,6 +329,7 @@ export const householdData: HouseholdData[] = [
     completenessPercentage: 89.5,
     criticalErrors: 2,
     minorErrors: 5,
+    scrutinyIterations: 3,
     scrutinyChanges: [
       {
         id: 'sc3',
@@ -396,6 +398,7 @@ export const householdData: HouseholdData[] = [
     completenessPercentage: 95.8,
     criticalErrors: 0,
     minorErrors: 3,
+    scrutinyIterations: 1,
     scrutinyChanges: [
       {
         id: 'sc5',

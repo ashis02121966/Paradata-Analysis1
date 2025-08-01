@@ -72,6 +72,7 @@ export interface HouseholdData {
   completenessPercentage: number;
   criticalErrors: number;
   minorErrors: number;
+  scrutinyIterations: number;
   scrutinyChanges: ScrutinyChange[];
   originalData: Record<string, any>;
   revisedData: Record<string, any>;
