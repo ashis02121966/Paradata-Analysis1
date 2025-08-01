@@ -295,7 +295,7 @@ const Dashboard: React.FC = () => {
             change: 0,
             trend: 'stable' as const,
             icon: 'MapPin',
-            subtitle: 'In current selection'
+            subtitle: user?.state ? `In ${user.state}` : 'In current selection'
           },
           {
             title: 'Avg Quality Score',
@@ -336,7 +336,7 @@ const Dashboard: React.FC = () => {
             change: 0,
             trend: 'stable' as const,
             icon: 'Home',
-            subtitle: 'In current selection'
+            subtitle: user?.state ? `In ${user.state}` : 'In current selection'
           },
           {
             title: 'Avg Quality Score',
@@ -365,7 +365,72 @@ const Dashboard: React.FC = () => {
         ];
       
       default:
-        return overallMetrics;
+        // Calculate state-specific metrics for survey view
+        const totalRecords = filteredSurveyData.reduce((sum, survey) => sum + survey.totalRecords, 0);
+        const totalApproved = filteredSurveyData.reduce((sum, survey) => sum + survey.recordsApproved, 0);
+        const totalRejected = filteredSurveyData.reduce((sum, survey) => sum + survey.recordsRejected, 0);
+        const totalUnderReview = filteredSurveyData.reduce((sum, survey) => 
+          sum + survey.recordsUnderSupervisorReview + survey.recordsUnderDSReview, 0);
+        const totalFSUCount = filteredSurveyData.reduce((sum, survey) => sum + survey.fsuCount, 0);
+        const totalDataChanges = filteredHouseholdData.reduce((sum, hh) => sum + hh.scrutinyChanges.length, 0);
+        
+        const overallEfficiency = totalRecords > 0 ? ((totalApproved / totalRecords) * 100) : 0;
+        const avgReviewTime = 5.2; // This would be calculated from actual review data
+        const qualityScore = filteredFSUData.length > 0 ? 
+          (filteredFSUData.reduce((sum, fsu) => sum + fsu.dataQualityScore, 0) / filteredFSUData.length) : 0;
+        
+        const stateSpecificSubtitle = user?.state ? `${user.state} state data` : 'Pan India Performance';
+        
+        return [
+          {
+            title: 'Overall Scrutiny Efficiency',
+            value: `${overallEfficiency.toFixed(1)}%`,
+            change: 3.2,
+            trend: 'up' as const,
+            icon: 'TrendingUp',
+            subtitle: stateSpecificSubtitle
+          },
+          {
+            title: 'Total Records Processed',
+            value: totalRecords.toLocaleString(),
+            change: 12.8,
+            trend: 'up' as const,
+            icon: 'FileText',
+            subtitle: user?.state ? `In ${user.state}` : 'Across all surveys'
+          },
+          {
+            title: 'Avg. Review Time',
+            value: `${avgReviewTime} hrs`,
+            change: -8.5,
+            trend: 'down' as const,
+            icon: 'Clock',
+            subtitle: 'Both levels combined'
+          },
+          {
+            title: 'Quality Score',
+            value: `${qualityScore.toFixed(1)}%`,
+            change: 2.1,
+            trend: 'up' as const,
+            icon: 'CheckCircle',
+            subtitle: 'Data accuracy rating'
+          },
+          {
+            title: 'FSUs Covered',
+            value: totalFSUCount.toString(),
+            change: 5.8,
+            trend: 'up' as const,
+            icon: 'MapPin',
+            subtitle: user?.state ? `In ${user.state}` : 'Total FSUs processed'
+          },
+          {
+            title: 'Data Changes Made',
+            value: totalDataChanges.toString(),
+            change: -2.3,
+            trend: 'down' as const,
+            icon: 'Edit',
+            subtitle: 'Scrutiny corrections'
+          }
+        ];
     }
   };
 
