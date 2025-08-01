@@ -41,10 +41,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({ metric }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-200">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
       <div className="flex items-center justify-between mb-4">
-        <div className="p-3 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
-          <IconComponent className="w-7 h-7 text-blue-600" />
+        <div className="p-2 sm:p-3 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+          <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />
         </div>
         <div className="flex items-center space-x-1">
           {getTrendIcon()}
@@ -55,10 +55,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({ metric }) => {
       </div>
       
       <div>
-        <h3 className="text-3xl font-bold text-gray-900 mb-1">{metric.value}</h3>
-        <p className="text-sm font-medium text-gray-700 mb-1">{metric.title}</p>
+        <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{metric.value}</h3>
+        <p className="text-sm font-medium text-gray-700 mb-1 leading-tight">{metric.title}</p>
         {metric.subtitle && (
-          <p className="text-xs text-gray-500">{metric.subtitle}</p>
+          <p className="text-xs text-gray-500 leading-tight">{metric.subtitle}</p>
         )}
       </div>
     </div>

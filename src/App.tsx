@@ -464,18 +464,18 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <Header onUserManagementClick={() => setShowUserManagement(true)} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Export and Refresh buttons */}
-        <div className="flex justify-end items-center space-x-3 mb-6">
+        <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-4 sm:mb-6">
           <button
             onClick={handleExport}
-            className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-sm"
+            className="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-sm text-sm"
           >
             <Download className="w-4 h-4" />
             <span>Export Data</span>
           </button>
           
-          <button className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm">
+          <button className="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm text-sm">
             <RefreshCw className="w-4 h-4" />
             <span>Refresh</span>
           </button>
@@ -483,13 +483,13 @@ const Dashboard: React.FC = () => {
 
         {/* Breadcrumb Navigation */}
         {drilldownContext.breadcrumb.length > 1 && (
-          <div className="flex items-center space-x-2 mb-6">
+          <div className="flex items-center space-x-2 mb-4 sm:mb-6 overflow-x-auto">
             {drilldownContext.breadcrumb.map((crumb, index) => (
               <React.Fragment key={index}>
                 {index > 0 && <span className="text-gray-400">/</span>}
                 <button
                   onClick={() => handleBreadcrumbClick(index)}
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`text-sm font-medium transition-colors duration-200 whitespace-nowrap ${
                     index === drilldownContext.breadcrumb.length - 1
                       ? 'text-gray-900 cursor-default'
                       : 'text-blue-600 hover:text-blue-800 cursor-pointer'
@@ -503,61 +503,64 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Metrics Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {getCurrentMetrics().slice(0, 4).map((metric, index) => (
             <MetricCard key={index} metric={metric} />
           ))}
         </div>
 
         {/* View Toggle */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0 mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <div className="flex bg-white rounded-lg shadow-sm border border-gray-200 p-1">
               <button
                 onClick={() => {
                   setCurrentView('survey');
                   setDrilldownContext({ breadcrumb: ['All Surveys'] });
                 }}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${
+                className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 rounded-md transition-all duration-200 text-sm ${
                   currentView === 'survey' 
                     ? 'bg-blue-600 text-white shadow-sm' 
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <BarChart3 className="w-4 h-4" />
-                <span>Survey Level</span>
+                <span className="hidden sm:inline">Survey Level</span>
+                <span className="sm:hidden">Survey</span>
               </button>
               <button
                 onClick={() => setCurrentView('fsu')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${
+                className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 rounded-md transition-all duration-200 text-sm ${
                   currentView === 'fsu' 
                     ? 'bg-blue-600 text-white shadow-sm' 
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <MapPin className="w-4 h-4" />
-                <span>FSU Level</span>
+                <span className="hidden sm:inline">FSU Level</span>
+                <span className="sm:hidden">FSU</span>
               </button>
               <button
                 onClick={() => setCurrentView('household')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${
+                className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 rounded-md transition-all duration-200 text-sm ${
                   currentView === 'household' 
                     ? 'bg-blue-600 text-white shadow-sm' 
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <Home className="w-4 h-4" />
-                <span>Household Level</span>
+                <span className="hidden sm:inline">Household Level</span>
+                <span className="sm:hidden">Household</span>
               </button>
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">{getViewTitle()}</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">{getViewTitle()}</h2>
           </div>
 
           {/* Back Button for drill-down views */}
           {drilldownContext.breadcrumb.length > 1 && (
             <button
               onClick={() => handleBreadcrumbClick(drilldownContext.breadcrumb.length - 2)}
-              className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+              className="flex items-center space-x-2 px-3 sm:px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 text-sm mt-4 sm:mt-0"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back</span>
@@ -566,7 +569,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Filters */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <FilterPanel
             filters={filters}
             onFilterChange={setFilters}
@@ -583,7 +586,7 @@ const Dashboard: React.FC = () => {
         {currentView === 'survey' && (
           <>
             {/* Main Charts Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <div className="lg:col-span-2">
                 <SurveyOverviewChart data={filteredSurveyData} />
               </div>
@@ -593,7 +596,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Performance Charts */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <SupervisorPerformanceChart data={filteredSupervisorData} />
               <DSPerformanceChart data={filteredDSData} />
             </div>
@@ -610,7 +613,7 @@ const Dashboard: React.FC = () => {
         {currentView === 'fsu' && (
           <>
             {/* FSU Performance Chart */}
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <FSUPerformanceChart 
                 data={filteredFSUData} 
                 onFSUClick={handleFSUClick}
@@ -620,8 +623,8 @@ const Dashboard: React.FC = () => {
 
             {/* Scrutiny Changes Analysis */}
             {allScrutinyChanges.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-6">Data Changes Analysis</h3>
+              <div className="mb-6 sm:mb-8">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 sm:mb-6">Data Changes Analysis</h3>
                 <ScrutinyChangesChart data={allScrutinyChanges} />
               </div>
             )}

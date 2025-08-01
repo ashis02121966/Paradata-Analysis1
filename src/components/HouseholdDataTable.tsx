@@ -63,16 +63,16 @@ export const HouseholdDataTable: React.FC<HouseholdDataTableProps> = ({ data, on
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                 Quality Metrics
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                 Errors Found
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Data Changes
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
                 Enumerator
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -105,7 +105,7 @@ export const HouseholdDataTable: React.FC<HouseholdDataTableProps> = ({ data, on
                     </span>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
                       <span className="text-xs text-gray-600">Quality:</span>
@@ -118,7 +118,7 @@ export const HouseholdDataTable: React.FC<HouseholdDataTableProps> = ({ data, on
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
                       <AlertTriangle className="w-3 h-3 text-red-500" />
@@ -142,14 +142,14 @@ export const HouseholdDataTable: React.FC<HouseholdDataTableProps> = ({ data, on
                     </span>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
                   <div className="text-sm text-gray-900">{item.enumeratorName}</div>
                   <div className="text-xs text-gray-500">{item.enumeratorId}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <button className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 transition-colors duration-200">
                     <Eye className="w-4 h-4" />
-                    <span className="text-sm">View Details</span>
+                    <span className="text-sm hidden sm:inline">View Details</span>
                   </button>
                 </td>
               </tr>

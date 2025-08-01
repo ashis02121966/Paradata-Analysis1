@@ -64,7 +64,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Survey
@@ -175,7 +175,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           </select>
         </div>
 
-        <div className="flex items-end">
+        <div className="flex items-end sm:col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-1">
           <button
             onClick={clearFilters}
             className="w-full px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200"

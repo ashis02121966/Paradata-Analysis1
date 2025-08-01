@@ -36,7 +36,7 @@ export const DetailedDataTable: React.FC<DetailedDataTableProps> = ({ data, onRo
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Survey & Location
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                 Total Records
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -45,10 +45,10 @@ export const DetailedDataTable: React.FC<DetailedDataTableProps> = ({ data, onRo
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Efficiency
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                 Pending Reviews
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
                 Last Updated
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -72,7 +72,7 @@ export const DetailedDataTable: React.FC<DetailedDataTableProps> = ({ data, onRo
                       <div className="text-sm text-gray-500">{item.state} - {item.district}</div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
                     <div className="flex items-center space-x-2">
                       <Users className="w-4 h-4 text-gray-400" />
                       <span className="text-sm font-medium text-gray-900">
@@ -104,7 +104,7 @@ export const DetailedDataTable: React.FC<DetailedDataTableProps> = ({ data, onRo
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
                     <div className="space-y-1">
                       <div className="text-xs text-gray-600">
                         Supervisor: {item.recordsUnderSupervisorReview}
@@ -117,7 +117,7 @@ export const DetailedDataTable: React.FC<DetailedDataTableProps> = ({ data, onRo
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
                     <div className="flex items-center space-x-2">
                       <Clock className="w-4 h-4 text-gray-400" />
                       <span className="text-sm text-gray-900">
@@ -132,7 +132,7 @@ export const DetailedDataTable: React.FC<DetailedDataTableProps> = ({ data, onRo
                         className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 transition-colors duration-200"
                       >
                         <Eye className="w-4 h-4" />
-                        <span className="text-sm">View</span>
+                        <span className="text-sm hidden sm:inline">View</span>
                       </button>
                       {onDrilldown && (
                         <button 
@@ -140,7 +140,7 @@ export const DetailedDataTable: React.FC<DetailedDataTableProps> = ({ data, onRo
                           className="flex items-center space-x-1 text-green-600 hover:text-green-800 transition-colors duration-200"
                         >
                           <ChevronRight className="w-4 h-4" />
-                          <span className="text-sm">FSUs</span>
+                          <span className="text-sm hidden sm:inline">FSUs</span>
                         </button>
                       )}
                     </div>
