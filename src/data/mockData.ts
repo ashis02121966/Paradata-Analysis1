@@ -266,9 +266,9 @@ export const householdData: HouseholdData[] = [
     scrutinyChanges: [
       {
         id: 'sc1',
-        surveyId: 'NFHS-6-2024',
+        surveyId: 'NFHS-6',
         schedule: 'Schedule 1.0',
-        block: 'Andheri East',
+        block: 'Block A',
         fieldName: 'household_income',
         fieldLabel: 'Monthly Household Income',
         originalValue: 45000,
@@ -282,9 +282,9 @@ export const householdData: HouseholdData[] = [
       },
       {
         id: 'sc2',
-        surveyId: 'NFHS-6-2024',
+        surveyId: 'NFHS-6',
         schedule: 'Schedule 1.0',
-        block: 'Andheri East',
+        block: 'Block A',
         fieldName: 'education_level',
         fieldLabel: 'Head Education Level',
         originalValue: 'Graduate',
@@ -333,9 +333,9 @@ export const householdData: HouseholdData[] = [
     scrutinyChanges: [
       {
         id: 'sc3',
-        surveyId: 'AHS-2024',
+        surveyId: 'AHS',
         schedule: 'Schedule 2.1',
-        block: 'Gomti Nagar',
+        block: 'Sector 12',
         fieldName: 'birth_date',
         fieldLabel: 'Date of Birth - Child 1',
         originalValue: '2018-05-15',
@@ -349,9 +349,9 @@ export const householdData: HouseholdData[] = [
       },
       {
         id: 'sc4',
-        surveyId: 'AHS-2024',
+        surveyId: 'AHS',
         schedule: 'Schedule 2.1',
-        block: 'Gomti Nagar',
+        block: 'Sector 12',
         fieldName: 'vaccination_status',
         fieldLabel: 'Vaccination Status',
         originalValue: 'Complete',
@@ -402,9 +402,9 @@ export const householdData: HouseholdData[] = [
     scrutinyChanges: [
       {
         id: 'sc5',
-        surveyId: 'AHS-2024',
+        surveyId: 'AHS',
         schedule: 'Schedule 2.1',
-        block: 'Gomti Nagar',
+        block: 'Sector 12',
         fieldName: 'occupation',
         fieldLabel: 'Primary Occupation',
         originalValue: 'Farmer',

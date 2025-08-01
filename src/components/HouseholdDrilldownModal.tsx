@@ -159,60 +159,60 @@ export const HouseholdDrilldownModal: React.FC<HouseholdDrilldownModalProps> = (
           </div>
 
           {/* Scrutiny Changes */}
-          {data.scrutinyChanges.length > 0 && (
+          {data.scrutinyChanges && data.scrutinyChanges.length > 0 && (
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Data Changes During Scrutiny</h3>
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <table className="w-full">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Survey ID</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Schedule</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Block</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Field</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Original Value</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revised Value</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Changed By</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Severity</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Reason</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Survey ID</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Schedule</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Block</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Field</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original Value</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revised Value</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Changed By</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Severity</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {data.scrutinyChanges.map((change) => (
                       <tr key={change.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap">
                           <span className="text-sm text-gray-900">{change.surveyId || 'N/A'}</span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap">
                           <span className="text-sm text-gray-900">{change.schedule || 'N/A'}</span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap">
                           <span className="text-sm text-gray-900">{change.block || 'N/A'}</span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4">
                           <div className="text-sm font-medium text-gray-900">{change.fieldLabel}</div>
                           <div className="text-sm text-gray-500">{change.fieldName}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4">
                           <span className="text-sm text-gray-900 bg-red-50 px-2 py-1 rounded">
                             {String(change.originalValue)}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4">
                           <span className="text-sm text-gray-900 bg-green-50 px-2 py-1 rounded">
                             {String(change.revisedValue)}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap">
                           <span className="text-sm text-gray-900">{change.changedBy}</span>
                           <div className="text-xs text-gray-500">{new Date(change.changeDate).toLocaleDateString()}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 text-xs font-medium rounded-full ${getSeverityColor(change.severity)}`}>
                             {change.severity}
                           </span>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-4 py-4">
                           <div className="text-sm text-gray-900">{change.changeReason}</div>
                         </td>
                       </tr>
