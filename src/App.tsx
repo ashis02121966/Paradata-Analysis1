@@ -27,6 +27,7 @@ const Dashboard: React.FC = () => {
     survey: 'All',
     state: 'All',
     district: 'All',
+    quarter: 'All',
     timeRange: '30d',
     reviewLevel: 'All',
     fsu: 'All',
@@ -66,11 +67,16 @@ const Dashboard: React.FC = () => {
     return Array.from(new Set(filteredFSUs.map(item => item.fsuCode)));
   }, [allowedStates]);
 
+  const quarters = useMemo(() => {
+    const filteredData = surveyData.filter(item => allowedStates.includes(item.state));
+    return Array.from(new Set(filteredData.map(item => item.quarter))).sort();
+  }, [allowedStates]);
   const filteredSurveyData = useMemo(() => {
     return surveyData.filter(item => {
       if (!canViewState(item.state)) return false;
       if (filters.survey !== 'All' && item.surveyName !== filters.survey) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
+      if (filters.quarter !== 'All' && item.quarter !== filters.quarter) return false;
       return true;
     });
   }, [filters, canViewState]);
@@ -81,6 +87,7 @@ const Dashboard: React.FC = () => {
       if (drilldownContext.surveyId && item.surveyId !== drilldownContext.surveyId) return false;
       if (filters.survey !== 'All' && item.surveyName !== filters.survey) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
+      if (filters.quarter !== 'All' && item.quarter !== filters.quarter) return false;
       if (filters.fsu !== 'All' && item.fsuCode !== filters.fsu) return false;
       if (filters.dataQuality !== 'All') {
         if (filters.dataQuality === 'High' && item.dataQualityScore < 90) return false;
@@ -101,6 +108,7 @@ const Dashboard: React.FC = () => {
       }
       if (filters.survey !== 'All' && item.surveyName !== filters.survey) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
+      if (filters.quarter !== 'All' && item.quarter !== filters.quarter) return false;
       if (filters.fsu !== 'All' && item.fsuCode !== filters.fsu) return false;
       if (filters.dataQuality !== 'All') {
         if (filters.dataQuality === 'High' && item.dataQualityScore < 90) return false;
@@ -565,6 +573,7 @@ const Dashboard: React.FC = () => {
             surveys={surveys}
             states={states}
             fsus={fsus}
+            quarters={quarters}
             isOpen={isFilterOpen}
             onToggle={() => setIsFilterOpen(!isFilterOpen)}
           />

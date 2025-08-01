@@ -3,6 +3,7 @@ export interface SurveyData {
   surveyName: string;
   state: string;
   district: string;
+  quarter: string;
   totalRecords: number;
   recordsSubmitted: number;
   recordsUnderSupervisorReview: number;
@@ -26,6 +27,7 @@ export interface FSUData {
   district: string;
   block: string;
   village: string;
+  quarter: string;
   enumeratorId: string;
   enumeratorName: string;
   supervisorId: string;
@@ -55,6 +57,7 @@ export interface HouseholdData {
   surveyName: string;
   state: string;
   district: string;
+  quarter: string;
   headOfHousehold: string;
   householdSize: number;
   enumeratorId: string;
@@ -144,6 +147,7 @@ export interface FilterState {
   survey: string;
   state: string;
   district: string;
+  quarter: string;
   timeRange: string;
   reviewLevel: string;
   fsu: string;

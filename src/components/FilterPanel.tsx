@@ -8,6 +8,7 @@ interface FilterPanelProps {
   surveys: string[];
   states: string[];
   fsus: string[];
+  quarters: string[];
   isOpen: boolean;
   onToggle: () => void;
 }
@@ -18,6 +19,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   surveys,
   states,
   fsus,
+  quarters,
   isOpen,
   onToggle
 }) => {
@@ -30,6 +32,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       survey: 'All',
       state: 'All',
       district: 'All',
+      quarter: 'All',
       timeRange: '30d',
       reviewLevel: 'All',
       fsu: 'All',
@@ -94,6 +97,21 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           </select>
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Quarter
+          </label>
+          <select
+            value={filters.quarter}
+            onChange={(e) => handleFilterChange('quarter', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+          >
+            <option value="All">All Quarters</option>
+            {quarters.map(quarter => (
+              <option key={quarter} value={quarter}>{quarter}</option>
+            ))}
+          </select>
+        </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             FSU
