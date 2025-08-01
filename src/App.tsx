@@ -1,5 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { BarChart3, Filter, Download, RefreshCw, Database, MapPin, Home, ArrowLeft } from 'lucide-react';
+import { BarChart3, Filter, Download, RefreshCw, MapPin, Home, ArrowLeft } from 'lucide-react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { LoginForm } from './components/auth/LoginForm';
+import { ForgotPasswordForm } from './components/auth/ForgotPasswordForm';
+import { Header } from './components/layout/Header';
+import { UserManagement } from './components/user/UserManagement';
 import { MetricCard } from './components/MetricCard';
 import { SurveyOverviewChart } from './components/SurveyOverviewChart';
 import { SupervisorPerformanceChart } from './components/SupervisorPerformanceChart';
@@ -16,7 +21,8 @@ import { FSUDrilldownModal } from './components/FSUDrilldownModal';
 import { surveyData, supervisorPerformance, dsPerformance, overallMetrics, fsuData, householdData } from './data/mockData';
 import { SurveyData, FilterState, HouseholdData, FSUData } from './types';
 
-function App() {
+const Dashboard: React.FC = () => {
+  const { user, canViewState, getAllowedStates } = useAuth();
   const [filters, setFilters] = useState<FilterState>({
     survey: 'All',
     state: 'All',
@@ -35,6 +41,7 @@ function App() {
   const [isFSUModalOpen, setIsFSUModalOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentView, setCurrentView] = useState<'survey' | 'fsu' | 'household'>('survey');
+  const [showUserManagement, setShowUserManagement] = useState(false);
   const [drilldownContext, setDrilldownContext] = useState<{
     surveyId?: string;
     fsuId?: string;
@@ -43,28 +50,34 @@ function App() {
     breadcrumb: ['All Surveys']
   });
 
+  const allowedStates = getAllowedStates();
+
   const surveys = useMemo(() => {
-    return Array.from(new Set(surveyData.map(item => item.surveyName)));
-  }, []);
+    const filteredSurveys = surveyData.filter(item => allowedStates.includes(item.state));
+    return Array.from(new Set(filteredSurveys.map(item => item.surveyName)));
+  }, [allowedStates]);
 
   const states = useMemo(() => {
-    return Array.from(new Set(surveyData.map(item => item.state)));
-  }, []);
+    return allowedStates;
+  }, [allowedStates]);
 
   const fsus = useMemo(() => {
-    return Array.from(new Set(fsuData.map(item => item.fsuCode)));
-  }, []);
+    const filteredFSUs = fsuData.filter(item => allowedStates.includes(item.state));
+    return Array.from(new Set(filteredFSUs.map(item => item.fsuCode)));
+  }, [allowedStates]);
 
   const filteredSurveyData = useMemo(() => {
     return surveyData.filter(item => {
+      if (!canViewState(item.state)) return false;
       if (filters.survey !== 'All' && item.surveyName !== filters.survey) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
       return true;
     });
-  }, [filters]);
+  }, [filters, canViewState]);
 
   const filteredFSUData = useMemo(() => {
     return fsuData.filter(item => {
+      if (!canViewState(item.state)) return false;
       if (drilldownContext.surveyId && item.surveyId !== drilldownContext.surveyId) return false;
       if (filters.survey !== 'All' && item.surveyName !== filters.survey) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
@@ -76,10 +89,11 @@ function App() {
       }
       return true;
     });
-  }, [filters, drilldownContext]);
+  }, [filters, drilldownContext, canViewState]);
 
   const filteredHouseholdData = useMemo(() => {
     return householdData.filter(item => {
+      if (!canViewState(item.state)) return false;
       if (drilldownContext.fsuId && item.fsuId !== drilldownContext.fsuId) return false;
       if (drilldownContext.surveyId) {
         const fsu = fsuData.find(f => f.id === item.fsuId);
@@ -95,21 +109,23 @@ function App() {
       }
       return true;
     });
-  }, [filters, drilldownContext]);
+  }, [filters, drilldownContext, canViewState]);
 
   const filteredSupervisorData = useMemo(() => {
     return supervisorPerformance.filter(item => {
+      if (!canViewState(item.state)) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
       return true;
     });
-  }, [filters]);
+  }, [filters, canViewState]);
 
   const filteredDSData = useMemo(() => {
     return dsPerformance.filter(item => {
+      if (!canViewState(item.state)) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
       return true;
     });
-  }, [filters]);
+  }, [filters, canViewState]);
 
   // Get all scrutiny changes from filtered household data
   const allScrutinyChanges = useMemo(() => {
@@ -235,6 +251,26 @@ function App() {
     window.URL.revokeObjectURL(url);
   };
 
+  if (showUserManagement) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+        <Header onUserManagementClick={() => setShowUserManagement(false)} />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="mb-6">
+            <button
+              onClick={() => setShowUserManagement(false)}
+              className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors duration-200"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Dashboard</span>
+            </button>
+          </div>
+          <UserManagement />
+        </main>
+      </div>
+    );
+  }
+
   const getViewTitle = () => {
     switch (currentView) {
       case 'survey': return 'Survey-wise Analysis';
@@ -335,39 +371,25 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl">
-                <Database className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">Survey Data Scrutiny Dashboard</h1>
-                <p className="text-sm text-gray-600">Field Data Review & Performance Analytics with FSU/Household Drill-down</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={handleExport}
-                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-sm"
-              >
-                <Download className="w-4 h-4" />
-                <span>Export Data</span>
-              </button>
-              
-              <button className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm">
-                <RefreshCw className="w-4 h-4" />
-                <span>Refresh</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header onUserManagementClick={() => setShowUserManagement(true)} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Export and Refresh buttons */}
+        <div className="flex justify-end items-center space-x-3 mb-6">
+          <button
+            onClick={handleExport}
+            className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            <span>Export Data</span>
+          </button>
+          
+          <button className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm">
+            <RefreshCw className="w-4 h-4" />
+            <span>Refresh</span>
+          </button>
+        </div>
+
         {/* Breadcrumb Navigation */}
         {drilldownContext.breadcrumb.length > 1 && (
           <div className="flex items-center space-x-2 mb-6">
@@ -541,6 +563,28 @@ function App() {
         />
       </main>
     </div>
+  );
+}
+
+const AuthenticatedApp: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+  if (!isAuthenticated) {
+    if (showForgotPassword) {
+      return <ForgotPasswordForm onBackToLogin={() => setShowForgotPassword(false)} />;
+    }
+    return <LoginForm onForgotPassword={() => setShowForgotPassword(true)} />;
+  }
+
+  return <Dashboard />;
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <AuthenticatedApp />
+    </AuthProvider>
   );
 }
 
