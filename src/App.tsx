@@ -365,21 +365,39 @@ const Dashboard: React.FC = () => {
         ];
       
       default:
-        // Calculate state-specific metrics for survey view
+        // Calculate metrics based on user's accessible data
         const totalRecords = filteredSurveyData.reduce((sum, survey) => sum + survey.totalRecords, 0);
         const totalApproved = filteredSurveyData.reduce((sum, survey) => sum + survey.recordsApproved, 0);
         const totalRejected = filteredSurveyData.reduce((sum, survey) => sum + survey.recordsRejected, 0);
         const totalUnderReview = filteredSurveyData.reduce((sum, survey) => 
           sum + survey.recordsUnderSupervisorReview + survey.recordsUnderDSReview, 0);
         const totalFSUCount = filteredSurveyData.reduce((sum, survey) => sum + survey.fsuCount, 0);
-        const totalDataChanges = filteredHouseholdData.reduce((sum, hh) => sum + hh.scrutinyChanges.length, 0);
         
+        // Calculate state-specific metrics
         const overallEfficiency = totalRecords > 0 ? ((totalApproved / totalRecords) * 100) : 0;
-        const avgReviewTime = 5.2; // This would be calculated from actual review data
+        
+        // Calculate average review time from supervisor and DS performance data
+        const accessibleSupervisors = filteredSupervisorData;
+        const accessibleDS = filteredDSData;
+        const totalReviewers = accessibleSupervisors.length + accessibleDS.length;
+        const avgReviewTime = totalReviewers > 0 ? 
+          ((accessibleSupervisors.reduce((sum, sup) => sum + sup.avgReviewTime, 0) +
+            accessibleDS.reduce((sum, ds) => sum + ds.avgReviewTime, 0)) / totalReviewers) : 0;
+        
+        // Calculate quality score from accessible FSU data
         const qualityScore = filteredFSUData.length > 0 ? 
           (filteredFSUData.reduce((sum, fsu) => sum + fsu.dataQualityScore, 0) / filteredFSUData.length) : 0;
         
-        const stateSpecificSubtitle = user?.state ? `${user.state} state data` : 'Pan India Performance';
+        // Calculate data changes from accessible household data
+        const totalDataChanges = filteredHouseholdData.reduce((sum, hh) => sum + hh.scrutinyChanges.length, 0);
+        
+        // Dynamic subtitles based on user role
+        const getSubtitle = (context: string) => {
+          if (user?.role === 'state_user' || user?.role === 'state_admin') {
+            return `${user.state} - ${context}`;
+          }
+          return `Pan India - ${context}`;
+        };
         
         return [
           {
@@ -388,7 +406,7 @@ const Dashboard: React.FC = () => {
             change: 3.2,
             trend: 'up' as const,
             icon: 'TrendingUp',
-            subtitle: stateSpecificSubtitle
+            subtitle: getSubtitle('Review efficiency')
           },
           {
             title: 'Total Records Processed',
@@ -396,15 +414,15 @@ const Dashboard: React.FC = () => {
             change: 12.8,
             trend: 'up' as const,
             icon: 'FileText',
-            subtitle: user?.state ? `In ${user.state}` : 'Across all surveys'
+            subtitle: getSubtitle('All surveys')
           },
           {
             title: 'Avg. Review Time',
-            value: `${avgReviewTime} hrs`,
+            value: `${avgReviewTime.toFixed(1)} hrs`,
             change: -8.5,
             trend: 'down' as const,
             icon: 'Clock',
-            subtitle: 'Both levels combined'
+            subtitle: getSubtitle('Both levels')
           },
           {
             title: 'Quality Score',
@@ -412,7 +430,7 @@ const Dashboard: React.FC = () => {
             change: 2.1,
             trend: 'up' as const,
             icon: 'CheckCircle',
-            subtitle: 'Data accuracy rating'
+            subtitle: getSubtitle('Data accuracy')
           },
           {
             title: 'FSUs Covered',
@@ -420,7 +438,7 @@ const Dashboard: React.FC = () => {
             change: 5.8,
             trend: 'up' as const,
             icon: 'MapPin',
-            subtitle: user?.state ? `In ${user.state}` : 'Total FSUs processed'
+            subtitle: getSubtitle('FSUs processed')
           },
           {
             title: 'Data Changes Made',
@@ -428,7 +446,7 @@ const Dashboard: React.FC = () => {
             change: -2.3,
             trend: 'down' as const,
             icon: 'Edit',
-            subtitle: 'Scrutiny corrections'
+            subtitle: getSubtitle('Scrutiny corrections')
           }
         ];
     }
