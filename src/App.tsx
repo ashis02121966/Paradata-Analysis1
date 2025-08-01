@@ -419,10 +419,29 @@ const Dashboard: React.FC = () => {
         
         // Dynamic subtitles based on user role
         const getSubtitle = (context: string) => {
-          if (user?.role === 'state_user' || user?.role === 'state_admin') {
-            return `${user.state} - ${context}`;
+          // Build dynamic subtitle based on applied filters
+          let locationText = '';
+          let surveyText = '';
+          
+          // Determine location context
+          if (filters.state !== 'All') {
+            locationText = filters.state;
+          } else if (user?.role === 'state_user' || user?.role === 'state_admin') {
+            locationText = user.state || 'State';
+          } else {
+            locationText = 'Pan India';
           }
-          return `Pan India - ${context}`;
+          
+          // Determine survey context
+          if (filters.survey !== 'All') {
+            surveyText = filters.survey;
+          } else if (filters.quarter !== 'All') {
+            surveyText = `All surveys (${filters.quarter})`;
+          } else {
+            surveyText = 'All surveys';
+          }
+          
+          return `${locationText} - ${surveyText} - ${context}`;
         };
         
         return [
