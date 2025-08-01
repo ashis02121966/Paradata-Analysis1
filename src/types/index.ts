@@ -76,6 +76,9 @@ export interface HouseholdData {
 
 export interface ScrutinyChange {
   id: string;
+  surveyId?: string;
+  schedule?: string;
+  block?: string;
   fieldName: string;
   fieldLabel: string;
   originalValue: any;

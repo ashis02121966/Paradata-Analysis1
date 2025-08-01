@@ -166,6 +166,9 @@ export const HouseholdDrilldownModal: React.FC<HouseholdDrilldownModalProps> = (
                 <table className="w-full">
                   <thead className="bg-gray-50">
                     <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Survey ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Schedule</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Block</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Field</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Original Value</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revised Value</th>
@@ -177,6 +180,15 @@ export const HouseholdDrilldownModal: React.FC<HouseholdDrilldownModalProps> = (
                   <tbody className="divide-y divide-gray-200">
                     {data.scrutinyChanges.map((change) => (
                       <tr key={change.id}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="text-sm text-gray-900">NFHS-6-2024</span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="text-sm text-gray-900">Schedule 1.0</span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="text-sm text-gray-900">Andheri East</span>
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">{change.fieldLabel}</div>
                           <div className="text-sm text-gray-500">{change.fieldName}</div>
