@@ -436,12 +436,12 @@ const Dashboard: React.FC = () => {
           if (filters.survey !== 'All') {
             surveyText = filters.survey;
           } else if (filters.quarter !== 'All') {
-            surveyText = `All surveys (${filters.quarter})`;
+            surveyText = `${filters.quarter}`;
           } else {
             surveyText = 'All surveys';
           }
           
-          return `${locationText} - ${surveyText} - ${context}`;
+          return `${locationText} - ${surveyText}`;
         };
         
         return [
