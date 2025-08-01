@@ -123,6 +123,9 @@ const Dashboard: React.FC = () => {
     return supervisorPerformance.filter(item => {
       if (!canViewState(item.state)) return false;
       if (filters.state !== 'All' && item.state !== filters.state) return false;
+      // Additional filtering based on survey and quarter would require linking supervisor data to surveys
+      // For now, we'll filter by state and district
+      if (filters.district !== 'All' && item.district !== filters.district) return false;
       return true;
     });
   }, [filters, canViewState]);
@@ -389,10 +392,19 @@ const Dashboard: React.FC = () => {
         const accessibleDS = filteredDSData;
         
         // Calculate weighted average review time based on actual reviews conducted
-        const supervisorTotalTime = accessibleSupervisors.reduce((sum, sup) => sum + (sup.avgReviewTime * sup.totalReviewed), 0);
-        const supervisorTotalReviews = accessibleSupervisors.reduce((sum, sup) => sum + sup.totalReviewed, 0);
-        const dsTotalTime = accessibleDS.reduce((sum, ds) => sum + (ds.avgReviewTime * ds.totalReviewed), 0);
-        const dsTotalReviews = accessibleDS.reduce((sum, ds) => sum + ds.totalReviewed, 0);
+        // Filter supervisors and DS based on the surveys and states in filtered data
+        const relevantStates = new Set(filteredSurveyData.map(s => s.state));
+        const relevantSupervisors = accessibleSupervisors.filter(sup => 
+          relevantStates.has(sup.state) || relevantStates.size === 0
+        );
+        const relevantDS = accessibleDS.filter(ds => 
+          relevantStates.has(ds.state) || relevantStates.size === 0
+        );
+        
+        const supervisorTotalTime = relevantSupervisors.reduce((sum, sup) => sum + (sup.avgReviewTime * sup.totalReviewed), 0);
+        const supervisorTotalReviews = relevantSupervisors.reduce((sum, sup) => sum + sup.totalReviewed, 0);
+        const dsTotalTime = relevantDS.reduce((sum, ds) => sum + (ds.avgReviewTime * ds.totalReviewed), 0);
+        const dsTotalReviews = relevantDS.reduce((sum, ds) => sum + ds.totalReviewed, 0);
         
         const totalWeightedTime = supervisorTotalTime + dsTotalTime;
         const totalReviews = supervisorTotalReviews + dsTotalReviews;
