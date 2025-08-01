@@ -139,9 +139,11 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({ isOpen, onClos
                   value={formData.username}
                   onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter username"
                   required
                 />
               </div>
+              <p className="text-xs text-gray-500 mt-1">Username must be unique</p>
             </div>
 
             <div>
