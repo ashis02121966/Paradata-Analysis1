@@ -387,10 +387,16 @@ const Dashboard: React.FC = () => {
         // Calculate average review time from supervisor and DS performance data
         const accessibleSupervisors = filteredSupervisorData;
         const accessibleDS = filteredDSData;
-        const totalReviewers = accessibleSupervisors.length + accessibleDS.length;
-        const avgReviewTime = totalReviewers > 0 ? 
-          ((accessibleSupervisors.reduce((sum, sup) => sum + sup.avgReviewTime, 0) +
-            accessibleDS.reduce((sum, ds) => sum + ds.avgReviewTime, 0)) / totalReviewers) : 0;
+        
+        // Calculate weighted average review time based on actual reviews conducted
+        const supervisorTotalTime = accessibleSupervisors.reduce((sum, sup) => sum + (sup.avgReviewTime * sup.totalReviewed), 0);
+        const supervisorTotalReviews = accessibleSupervisors.reduce((sum, sup) => sum + sup.totalReviewed, 0);
+        const dsTotalTime = accessibleDS.reduce((sum, ds) => sum + (ds.avgReviewTime * ds.totalReviewed), 0);
+        const dsTotalReviews = accessibleDS.reduce((sum, ds) => sum + ds.totalReviewed, 0);
+        
+        const totalWeightedTime = supervisorTotalTime + dsTotalTime;
+        const totalReviews = supervisorTotalReviews + dsTotalReviews;
+        const avgReviewTime = totalReviews > 0 ? (totalWeightedTime / totalReviews) : 0;
         
         // Calculate quality score from accessible FSU data
         const qualityScore = filteredFSUData.length > 0 ? 
