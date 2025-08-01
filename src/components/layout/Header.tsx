@@ -12,6 +12,20 @@ export const Header: React.FC<HeaderProps> = ({ onUserManagementClick }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
+  const getDashboardTitle = () => {
+    if (!user) return 'Survey Dashboard';
+    
+    if (user.role === 'central_admin' || user.role === 'central_user') {
+      return 'Survey Dashboard - Central';
+    }
+    
+    if ((user.role === 'state_admin' || user.role === 'state_user') && user.state) {
+      return `Survey Dashboard - ${user.state}`;
+    }
+    
+    return 'Survey Dashboard';
+  };
+
   const getRoleDisplay = (role: string) => {
     switch (role) {
       case 'central_admin': return 'Central Admin';
@@ -35,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({ onUserManagementClick }) => {
                 <Database className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Survey Data Scrutiny Dashboard</h1>
+                <h1 className="text-xl font-bold text-gray-900">{getDashboardTitle()}</h1>
                 <p className="text-sm text-gray-600">Field Data Review & Performance Analytics</p>
               </div>
             </div>
