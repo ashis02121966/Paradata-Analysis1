@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { supabase } from '../src/lib/supabase';
 import { surveyData, fsuData, householdData, supervisorPerformance, dsPerformance } from '../src/data/mockData';
 
